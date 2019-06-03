@@ -2,7 +2,6 @@ import React from 'react';
 
 function  Message({props, index}) {
   let content;
-  console.log('props',props);
   if(props.type === 'incomingMessage'){
     content =  
       <div className="message">
