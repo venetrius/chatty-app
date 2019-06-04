@@ -23,19 +23,11 @@ class App extends Component {
       ]
     };
     this.createNewMessage = this.createNewMessage.bind(this);
+    this.connection = null;
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!",type: 'incomingMessage'};
-      const messages = this.state.messages.concat([newMessage])
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000);
+    this.connect();
   }
 
   createNewMessage(username, content){
@@ -60,6 +52,27 @@ class App extends Component {
       </div>
     );
   }
+
+  connect() {
+    const serverUrl = 'ws://localhost:3001/';  
+    this.connection = new WebSocket(serverUrl, 'json');
+    console.log('***CREATED WEBSOCKET');
+  
+    this.connection.onopen = function(evt) {
+
+    };
+    console.log("***CREATED ONOPEN");
+  
+    this.connection.onmessage = function(evt) {
+      var msg = JSON.parse(evt.data);
+      console.log("Message received: ");
+      console.log(msg);
+      var time = new Date(msg.date);
+      var timeStr = time.toLocaleTimeString();
+    };
+    console.log("***CREATED ONMESSAGE");
+  }
+
 }
 export default App;
 
