@@ -9,7 +9,7 @@ class MessageList extends Component {
   }
 
   render() {
-    const messageList = this.messageList.map((message, index) => <Message props={message} key={index}></Message> );
+    const messageList = this.messageList.map((message, index) => <Message props={message} key={'message_' + index}></Message> );
     return (
       <main key="messageList" className="messages">
         {messageList}
