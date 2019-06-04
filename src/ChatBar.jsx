@@ -1,9 +1,14 @@
 import React from 'react';
 
-function ChatBar () {
+function ChatBar (props) {
+  let nameInput = props.username ? 
+    <input name='name' className="chatbar-username" defaultValue={props.username} /> :
+    <input className="chatbar-username" placeholder="Your Name (Optional)" />;
+
+
   return (
     <footer className="chatbar">
-      <input className="chatbar-username" placeholder="Your Name (Optional)" />
+      {nameInput}
       <input className="chatbar-message" placeholder="Type a message and hit ENTER" />
     </footer>   
   );

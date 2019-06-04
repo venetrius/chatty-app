@@ -7,6 +7,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
+      username : 'Bob',
       messages : [
         {
           type: 'incomingMessage',
@@ -27,7 +28,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messageList={this.state.messages}/>
-        <ChatBar/>
+        <ChatBar username={this.state.username}/>
       </div>
     );
   }
