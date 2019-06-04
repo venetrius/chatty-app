@@ -5,11 +5,10 @@ class MessageList extends Component {
   
   constructor(props){
     super();
-    this.messageList = props.messageList;
   }
 
   render() {
-    const messageList = this.messageList.map((message, index) => <Message props={message} key={'message_' + index}></Message> );
+    const messageList = this.props.messageList.map((message) => <Message props={message} key={'message_' + message.id}></Message> );
     return (
       <main key="messageList" className="messages">
         {messageList}
