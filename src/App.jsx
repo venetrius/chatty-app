@@ -39,6 +39,7 @@ class App extends Component {
     };
     const messages = this.state.messages.concat([newMessage]);
     this.setState({messages: messages});
+    this.connection.send(JSON.stringify(newMessage));
   }
 
   render() {
