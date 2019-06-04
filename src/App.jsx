@@ -8,19 +8,7 @@ class App extends Component {
     super();
     this.state = {
       username : 'Bob',
-      messages : [
-        {
-          id : 1,
-          type: 'incomingMessage',
-          content: 'I won\'t be impressed with technology until I can download food.',
-          username: 'Anonymous1'
-        },
-        {
-          id : 2,
-          type: 'incomingNotification',
-          content: 'Anonymous1 changed their name to nomnom',
-        } 
-      ]
+      messages : []
     };
     this.createNewMessage = this.createNewMessage.bind(this);
     this.connection = null;
@@ -32,14 +20,16 @@ class App extends Component {
 
   createNewMessage(username, content){
     const newMessage = {
-      id: this.state.messages.length + 1,
       username: username,
       content: content,
       type: 'incomingMessage'
     };
+    this.connection.send(JSON.stringify(newMessage));
+  }
+
+  showNewMessage(newMessage){
     const messages = this.state.messages.concat([newMessage]);
     this.setState({messages: messages});
-    this.connection.send(JSON.stringify(newMessage));
   }
 
   render() {
@@ -64,13 +54,15 @@ class App extends Component {
     };
     console.log("***CREATED ONOPEN");
   
-    this.connection.onmessage = function(evt) {
-      var msg = JSON.parse(evt.data);
-      console.log("Message received: ");
-      console.log(msg);
-      var time = new Date(msg.date);
-      var timeStr = time.toLocaleTimeString();
-    };
+    const App = this;
+    const showNewMessage = function (event) {
+      var newMessage = JSON.parse(event.data);
+      const messages = App.state.messages.concat([newMessage]);
+      App.setState({messages: messages});
+    }
+
+    this.connection.onmessage = showNewMessage;
+
     console.log("***CREATED ONMESSAGE");
   }
 
