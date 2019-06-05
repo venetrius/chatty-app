@@ -30,7 +30,7 @@ class App extends Component {
     const newMessage = {
       username: username,
       content: content,
-      type: 'incomingMessage'
+      type: 'postMessage'
     };
     this.connection.send(JSON.stringify(newMessage));
   }
