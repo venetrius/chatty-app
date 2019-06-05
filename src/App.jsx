@@ -22,6 +22,11 @@ class App extends Component {
   updateUserName(newName){
     const oldName = this.state.username;
     if(newName && newName !== oldName){
+      const notification = {
+        content: oldName + ' has changed their name to ' + newName + '.',
+        type: 'postNotification'
+      };
+      this.connection.send(JSON.stringify(notification));
       this.setState({username : newName});
     }
   }
