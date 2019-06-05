@@ -8,7 +8,8 @@ class App extends Component {
     super();
     this.state = {
       username : 'Bob',
-      messages : []
+      messages : [],
+      usercount : 0 
     };
     this.createNewMessage = this.createNewMessage.bind(this);
     this.updateUserName = this.updateUserName.bind(this);
@@ -49,7 +50,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
+          <a href="/" className="navbar-brand">Chatty</a> <span className='user-count'> {this.state.usercount} user online </span>
         </nav>
         <MessageList messageList={this.state.messages}/>
         <ChatBar username={this.state.username} updateUserName={this.updateUserName} onNewMessage={this.createNewMessage}/>
@@ -70,8 +71,12 @@ class App extends Component {
     const App = this;
     const showNewMessage = function (event) {
       var newMessage = JSON.parse(event.data);
-      const messages = App.state.messages.concat([newMessage]);
-      App.setState({messages: messages});
+      if(newMessage.type === 'userCountNotification'){
+        App.setState({usercount : newMessage.content});
+      }else{
+        const messages = App.state.messages.concat([newMessage]);
+        App.setState({messages: messages});
+      }
     }
 
     this.connection.onmessage = showNewMessage;
