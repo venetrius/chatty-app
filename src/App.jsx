@@ -15,7 +15,8 @@ class App extends Component {
     this.updateUserName = this.updateUserName.bind(this);
     this.connection = null;
   }
-
+  
+  // opens a websocket connection
   componentDidMount() {
     this.connect();
   }

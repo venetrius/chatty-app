@@ -5,7 +5,7 @@ function  Message({props, index}) {
   if(props.type === 'incomingMessage'){
     content =  
       <div className="message">
-        <span className="message-username">{props.username}</span>
+        <span className="message-username" style={{color : props.userColor}}>{props.username}</span>
         <span className="message-content">{props.content}</span>
       </div>
   }else{
