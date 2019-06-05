@@ -1,6 +1,13 @@
 import React from 'react';
 
 function ChatBar (props) {
+
+  const changeName = function(event) {
+    const newName = event.target[0].value;
+    event.preventDefault();
+    props.updateUserName(newName);
+  }
+
   const keyUp = function(event){
     if (event.key === 'Enter' && event.target.value.length > 0) {
       props.onNewMessage(props.username, event.target.value);
@@ -11,12 +18,15 @@ function ChatBar (props) {
   // parent should provide a callback to call when username is changed
   let nameInput = props.username ? 
     <input name='name' className="chatbar-username" defaultValue={props.username} /> :
-    <input className="chatbar-username" placeholder="Your Name (Optional)" />;
+    <input name='name' className="chatbar-username" placeholder="Your Name (Optional)" />;
 
 
   return (
     <footer className="chatbar">
-      {nameInput}
+      <form onSubmit={changeName}>
+        {nameInput}
+      </form>
+      
       <input className="chatbar-message" placeholder="Type a message and hit ENTER" onKeyUp={keyUp}/>
     </footer>   
   );
