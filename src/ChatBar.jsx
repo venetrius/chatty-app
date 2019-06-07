@@ -15,18 +15,13 @@ function ChatBar (props) {
     }
   };
 
-  // parent should provide a callback to call when username is changed
   let nameInput = props.username ? 
     <input name='name' className="chatbar-username" defaultValue={props.username} /> :
     <input name='name' className="chatbar-username" placeholder="Your Name (Optional)" />;
 
-
   return (
     <footer className="chatbar">
-      <form onSubmit={changeName}>
-        {nameInput}
-      </form>
-      
+      <form onSubmit={changeName}> {nameInput} </form>      
       <input className="chatbar-message" placeholder="Type a message and hit ENTER" onKeyUp={keyUp}/>
     </footer>   
   );
