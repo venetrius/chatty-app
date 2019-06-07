@@ -11,30 +11,22 @@ const createPost = function(content){
   const imgUrl = machImgUrl(content);
   const img = imgUrl ? <img src={imgUrl} /> : '';
   const text = imgUrl ? content.replace(imgUrl, '') : content;
-  return {img, text};
+  return (      
+    <div className="message">
+      <span className="message-username" style={{color : props.userColor}}>{props.username}</span>
+      <span className="message-content">{text} <br/> {img}</span>        
+    </div>
+  );
+}
+
+const isMessage = function (props){
+  return props.type === 'incomingMessage';
 }
 
 function  Message({props}) {
-  let content;
-  if(props.type === 'incomingMessage'){
-    const {img, text} = createPost(props.content);
-    content =  
-      <div className="message">
-        <span className="message-username" style={{color : props.userColor}}>{props.username}</span>
-        <span className="message-content">{text} <br/> {img}</span>
-        
-        
-      </div>
-  }else{
-    content = 
-      <div className="message system">
-         {props.content}
-     </div>
-  }
+  let content = isMessage(props) ? createPost(props.content) : (<div className="message system"> {props.content} </div>);
   return (
    <div>{content}</div>
-    
-    
   );
 }
 export default Message;
