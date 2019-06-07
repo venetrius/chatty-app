@@ -7,7 +7,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      username : 'Bob',
+      username : '',
       messages : [],
       usercount : 0 
     };
@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   updateUserName(newName){
-    const oldName = this.state.username;
+    const oldName = this.state.username ? this.state.username : 'Anonymus';
     if(newName && newName !== oldName){
       const notification = {
         content: oldName + ' has changed their name to ' + newName + '.',
@@ -35,7 +35,7 @@ class App extends Component {
 
   createNewMessage(username, content){
     const newMessage = {
-      username: username,
+      username: this.state.username ? this.state.username : 'Anonymus',
       content: content,
       type: 'postMessage'
     };
@@ -60,17 +60,11 @@ class App extends Component {
   }
 
   connect() {
-    const serverUrl = 'ws://localhost:3001/';  
+    const serverUrl = 'ws://localhost:3003/';  
     this.connection = new WebSocket(serverUrl, 'json');
-    console.log('***CREATED WEBSOCKET');
-  
-    this.connection.onopen = function(evt) {
-
-    };
-    console.log("***CREATED ONOPEN");
-  
     const App = this;
-    const showNewMessage = function (event) {
+
+    this.connection.onmessage = function (event) {
       var newMessage = JSON.parse(event.data);
       if(newMessage.type === 'userCountNotification'){
         App.setState({usercount : newMessage.content});
@@ -79,10 +73,6 @@ class App extends Component {
         App.setState({messages: messages});
       }
     }
-
-    this.connection.onmessage = showNewMessage;
-
-    console.log("***CREATED ONMESSAGE");
   }
 
 }
